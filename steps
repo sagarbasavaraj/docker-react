@@ -1,0 +1,40 @@
+docker build . - build with default file - Dockerfile
+docker build -f Dockerfile.dev . - buils with custom docker file 
+like Dockerfile.dev, Dockerfile.prod etc..
+
+docker run -p <port>:<port> <container id> - creating and starting a container
+docker run -it <container id> <command> (docker run -it 89ed2be88c95 npm run test) - here -i is used
+for accepting input
+docker exec -it 94a0ed18620e npm run test - attaching another service using exec
+docker exec -it <container id> sh (opens shell)
+docker create - create container
+docker start - start container
+
+docker-compose up - use to build and run docker by composing two or more containers
+docker-compose build or docker-compose up --build  - rebuild containers
+above both uses docker-compose.yml
+
+
+docker ps --all - show all the process runnning
+docker system prune - kill all the process
+
+docker run -p 3000:3000 -v /app/node_modules -v $(pwd):/app 89ed2be88c95 - running with volumes. 
+this is done to make sure that when we change the files it will be reflected in the container. 
+this is done only for dev.
+
+docker-compose.yml ex..
+
+version: '3'
+services:
+  web:
+    restart: "always" can be no or on-failure, on-force
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - /app/node_modules
+      - .:/app
+
+
+Multistep build process
+
